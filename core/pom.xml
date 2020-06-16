@@ -13,6 +13,13 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>core</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -30,11 +37,6 @@
                             <resources>
                                 <resource>
                                     <directory>${project.parent.basedir}/ui/target/dist</directory>
-                                    <includes>
-                                        <include>static/</include>
-                                        <include>index.html</include>
-                                        <include>favicon.ico</include>
-                                    </includes>
                                 </resource>
                             </resources>
                         </configuration>
