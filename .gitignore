@@ -1,0 +1,15 @@
+.idea
+.mvn
+mvnw.cmd
+mvnw
+target
+etc
+node
+node_modules
+/ui/ui.iml
+/core/core.iml
+parser.iml
+/ui/etc/
+/core/src/main/resources/public/static/css/
+/core/src/main/resources/public/static/img/
+/core/src/main/resources/public/static/js/
