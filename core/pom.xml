@@ -37,6 +37,9 @@
                             <resources>
                                 <resource>
                                     <directory>${project.parent.basedir}/ui/target/dist</directory>
+                                    <excludes>
+                                        <exclude>**/style/**</exclude>
+                                    </excludes>
                                 </resource>
                             </resources>
                         </configuration>

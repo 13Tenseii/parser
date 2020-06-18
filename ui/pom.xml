@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ui</artifactId>
     <name>ui</name>
@@ -12,24 +13,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <executions>
-                    <execution>
-                        <id>compile stylus files</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>styl</executable>
-                            <commandlineArgs>. --out ${project.build.directory}/dist/</commandlineArgs>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
@@ -63,13 +46,24 @@
                             <arguments>run build</arguments>
                         </configuration>
                     </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
                     <execution>
                         <id>compile stylus files</id>
                         <phase>process-resources</phase>
                         <goals>
-                            <goal>webpack</goal>
+                            <goal>exec</goal>
                         </goals>
-
+                        <configuration>
+                            <executable>stylus</executable>
+                            <commandlineArgs>. --out ${project.parent.basedir}/ui/target/dist/static/css/style.min.css --include-css --include ../../../node_modules/ --compress</commandlineArgs>
+                            <workingDirectory>${basedir}/public/style</workingDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
