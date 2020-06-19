@@ -1,6 +1,11 @@
 <template>
     <div class="Header">
-        <div class="Header__link"></div>
+        <img src="../../public/logo.png" class="Header__logo-img"/>
+        <div class="Header__links">
+            <div class="Header__link">About</div>
+            <div class="Header__link">Service</div>
+            <div class="Header__link">Contacts</div>
+        </div>
     </div>
 </template>
 

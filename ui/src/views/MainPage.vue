@@ -1,14 +1,19 @@
 <template>
     <div class="">
-        <img src="../../public/logo.png">
+        <Header></Header>
     </div>
 </template>
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
-    // font phantasm
-    @Component
+    import Header from "@/components/Header.vue";
+
+    @Component({
+        components: {
+            Header
+        }
+    })
     export default class MainPage extends Vue {
-        private message: string = 'Main Page';
+        private header: Header = new Header();
     }
 </script>
