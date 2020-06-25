@@ -15,7 +15,7 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
 
-    @Component
+    @Component({name: 'HeaderContent'})
     export default class HeaderContent extends Vue {
 
         private redirectVk(): void {

@@ -4,6 +4,7 @@
             <Header></Header>
             <HeaderContent></HeaderContent>
         </div>
+        <Services></Services>
         <About></About>
     </div>
 </template>
@@ -13,11 +14,14 @@
     import Header from "@/components/Header.vue";
     import HeaderContent from "@/components/HeaderContent.vue";
     import About from "@/components/About.vue";
+    import Services from "@/components/Services.vue";
 
     @Component({
+        name: 'MainPage',
         components: {
             Header,
             HeaderContent,
+            Services,
             About
         }
     })
