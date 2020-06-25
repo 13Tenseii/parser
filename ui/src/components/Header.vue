@@ -1,9 +1,9 @@
 <template>
     <div class="Header">
-        <img src="../../public/logo.png" class="Header__logo-img"/>
+        <img src="../../public/static/logo.png" class="Header__logo-img"/>
         <div class="Header__links">
             <div class="Header__link">About</div>
-            <div class="Header__link">Service</div>
+            <div class="Header__link">Services</div>
             <div class="Header__link">Contacts</div>
         </div>
     </div>
