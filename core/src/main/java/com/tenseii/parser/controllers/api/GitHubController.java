@@ -30,6 +30,6 @@ public class GitHubController extends com.tenseii.parser.controllers.Controller 
 //        } catch (ServiceException exc) {
 //            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, exc.getMessage());
 //        }
-        return "{\"linesOfCode\":20585;}";
+        return "{\"linesOfCode\":20585}";
     }
 }

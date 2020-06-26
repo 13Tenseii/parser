@@ -1,6 +1,7 @@
 .Services {
   background white;
   margin-top 20rem;
+  padding-bottom 15rem;
 
   &__header {
     font-size 4rem;
@@ -21,6 +22,7 @@
     cursor pointer;
     margin 12rem;
     margin-top 0;
+    margin-bottom 0;
     border-bottom 3px solid grey;
 
     &__active {
@@ -28,4 +30,20 @@
       border-bottom 3px solid $orange_color !important;
     }
   }
+
+  &__description {
+    display flex;
+    justify-content center;
+    font-size 1.1rem;
+    align-items center;
+    padding 1rem;
+  }
+
+  &__circle-icon {
+    color $orange_color;
+    font-size 0.7rem;
+    text-align center;
+    margin-right 0.3rem;
+  }
+
 }
