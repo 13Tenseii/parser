@@ -6,4 +6,32 @@
   background-color $grey_color;
   height 30rem;
   align-items center;
+
+  &__stats {
+    display flex;
+    justify-content center;
+    align-items center;
+
+    &__label {
+      color $orange_color;
+      font-size 1.3rem;
+    }
+  }
+
+  &__table {
+    border 1px solid $violet_color;
+
+    &__row {
+      padding 3px;
+      border 1px solid $violet_color;
+    }
+
+    &__definition {
+      color #721c24;
+    }
+
+    &__value {
+      color #000066;
+    }
+  }
 }

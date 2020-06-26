@@ -1,6 +1,7 @@
 import HttpResponse from "@/api/HttpResponse";
 import HttpRequest from "@/api/HttpRequest";
 import axios from "axios";
+import GitStatsDto from "@/api/dto/GitStatsDto";
 
 export default class RestApi {
     private static readonly restUrl: string = window.location.origin + '/api';
@@ -26,9 +27,9 @@ export default class RestApi {
         return properties;
     }
 
-    public getLinesOfCode(login: string): Promise<HttpResponse<any>> {
+    public getGitStats(login: string): Promise<HttpResponse<GitStatsDto>> {
         return this.call(new HttpRequest(
-            "linesOfCode/" + login,
+            "gitStats/" + login,
             "GET"
         ));
     }

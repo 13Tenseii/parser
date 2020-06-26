@@ -2,21 +2,28 @@ package com.tenseii.parser.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tenseii.parser.dto.GitStatsDto;
+import com.tenseii.parser.dto.RepoStatsDto;
 import com.tenseii.parser.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class GitHubService {
     private final static Logger logger = LoggerFactory.getLogger(GitHubService.class);
+    private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-    public Long getLinesOfCode(String userName) throws ServiceException {
+    public GitStatsDto getGitStats(String userName) throws ServiceException {
         var targetUrl = GitHubHttpsService.buildTargetUrl("users/" + userName);
 
         if (!isUserExist(targetUrl))
@@ -24,25 +31,45 @@ public class GitHubService {
 
         targetUrl = GitHubHttpsService.buildTargetUrl("users/" + userName + "/repos");
 
-        var reposNamesSet = getReposNamesSet(targetUrl);
-        if (reposNamesSet.isEmpty())
+        var reposSet = getReposSet(targetUrl);
+        if (reposSet.isEmpty())
             throw new ServiceException("No repos found");
 
+        var gitStatsDto = new GitStatsDto();
         Long countOfLines = 0L;
-        for (var repoName: reposNamesSet) {
-            targetUrl = GitHubHttpsService.buildTargetUrl("repos/" + userName + "/" + repoName + "/commits");
+        Long countOfCommits = 0L;
+        for (var repo: reposSet) {
+            targetUrl = GitHubHttpsService.buildTargetUrl("repos/" + userName + "/"
+                    + repo.getRepoName() + "/commits");
+
             var repoCommitsRefSet = getRepoCommitsRefSet(targetUrl);
 
             if (!repoCommitsRefSet.isEmpty()) {
+                var repoLines = 0L;
                 for (var commitRef: repoCommitsRefSet) {
                     var commitInfoTargetUrl = targetUrl + "/" + commitRef;
                     var calculatedAdditionStat = getCommitAdditionStat(commitInfoTargetUrl);
-                    if (calculatedAdditionStat != null)
+                    if (calculatedAdditionStat != null) {
                         countOfLines += calculatedAdditionStat;
+                        repoLines += calculatedAdditionStat;
+                    }
                 }
+                var numberOfCommits = Long.valueOf(repoCommitsRefSet.size());
+
+                countOfCommits += numberOfCommits;
+                repo.setNumberOfCommits(numberOfCommits);
+
+                repo.setLinesOfCode(repoLines);
             }
+
+            gitStatsDto.getReposStats().add(repo);
         }
-        return countOfLines;
+
+        gitStatsDto.setLinesOfCode(countOfLines);
+        gitStatsDto.setNumberOfRepos((long) reposSet.size());
+        gitStatsDto.setNumberOfCommits(countOfCommits);
+
+        return gitStatsDto;
     }
 
     private Integer getCommitAdditionStat(String targetUrl) {
@@ -76,14 +103,42 @@ public class GitHubService {
         return Collections.emptySet();
     }
 
-    private Set<String> getReposNamesSet(String targetUrl) {
+    private Set<RepoStatsDto> getReposSet(String targetUrl) {
         var response = GitHubHttpsService.performGet(targetUrl);
 
         if (GitHubHttpsService.isValidResponse(response)) {
-            return getFieldValuesSetFromArrayResponse(response, "name");
+            var objectMapper = new ObjectMapper();
+            try {
+                var arrayNode = objectMapper.readTree(response.getBody());
+                var iterator = arrayNode.iterator();
+                var resultSet = new HashSet<RepoStatsDto>();
+
+                iterator.forEachRemaining(node -> {
+                    var repoDto = new RepoStatsDto();
+                    repoDto.setRepoName(node.get("name").asText());
+                    repoDto.setCreatedDate(convertDate(node.get("created_at").asText()));
+                    repoDto.setUpdatedDate(convertDate(node.get("updated_at").asText()));
+                    resultSet.add(repoDto);
+                });
+
+                return resultSet;
+            } catch (JsonProcessingException exc) {
+                logger.error("Error parsing response", exc);
+                return Collections.emptySet();
+            }
         }
 
         return Collections.emptySet();
+    }
+
+    private Long convertDate(String date) {
+        try {
+            Date convertedDate = dateFormat.parse(date);
+            return convertedDate.getTime() / 1000;
+        } catch (ParseException exc) {
+            logger.error("Error converting date", exc);
+            return null;
+        }
     }
 
     private boolean isUserExist(String targetUrl) {
@@ -106,7 +161,4 @@ public class GitHubService {
             return Collections.emptySet();
         }
     }
-
-
-
 }
