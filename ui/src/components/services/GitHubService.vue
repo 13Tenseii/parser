@@ -2,57 +2,44 @@
     <div class="Github-service">
         <div class="Services__description">
             <i class="fas fa-circle Services__circle-icon"></i>
-            This is a simple service that counts the number of lines of code written on your GitHub account
+            This is a simple service that counts statistics on your GitHub account
         </div>
-        <div class="row">
-            <div class="col">
-                <label>
-                    <i class="fas fa-circle Services__circle-icon"></i>
-                    Please enter your GitHub name
-                    <input placeholder="Name" v-model="gitHubName">
-                </label>
-            </div>
+        <div class="Services__description">
+            <label>
+                <i class="fas fa-circle Services__circle-icon"></i>
+                Please enter your GitHub name:
+                <input class="Github-service__input"
+                       v-on:blur="onBlur"
+                       v-on:keypress.enter="onBlur">
+            </label>
         </div>
-        <div class="row">
-            <div class="col">
-                <button class="Custom-btn" v-on:click="onClick">Submit</button>
+        <div class="Github-service__stats" v-if="result">
+            <div class="Github-service__stats__label">Statistics</div>
+            <div class="Github-service__stat-section">
+                <i class="Github-service__icon Github-service__icon__circle-icon fas fa-circle"></i>
+                <div class="Github-service__stat-section__description">Total lines of code:</div>
+                <div class="Github-service__stat-section__value" v-text="result.linesOfCode"></div>
             </div>
-        </div>
-        <div v-if="result" class="Github-service__stats">
-            <label class="Github-service__stats__label">Statistics</label>
-            <div class="Github-service__table__row">
-                <div class="Github-service__table__definition">Total lines of code</div>
-                <div class="Github-service__table__value" v-text="result.linesOfCode"></div>
+            <div class="Github-service__stat-section">
+                <i class="Github-service__icon Github-service__icon__circle-icon fas fa-circle"></i>
+                <div class="Github-service__stat-section__description">Total number of commits:</div>
+                <div class="Github-service__stat-section__value" v-text="result.numberOfCommits"></div>
             </div>
-            <div class="Github-service__table__row">
-                <div class="Github-service__table__definition">Total number of commits</div>
-                <div class="Github-service__table__value" v-text="result.numberOfCommits"></div>
+            <div class="Github-service__stat-section">
+                <i class="Github-service__icon Github-service__icon__circle-icon fas fa-circle"></i>
+                <div class="Github-service__stat-section__description">Total number of repositories:</div>
+                <div class="Github-service__stat-section__value" v-text="result.numberOfRepos"></div>
             </div>
-            <div class="Github-service__table__row">
-                <div class="Github-service__table__definition">Number of repos</div>
-                <div class="Github-service__table__value" v-text="result.numberOfRepos"></div>
-            </div>
-            <div class="Github-service__table__row" v-for="repo in result.reposStats"
+            <div class="Github-service__stat-section"
+                 v-for="repo in result.reposStats"
                  v-bind:key="repo">
-                <div class="Github-service__table__row">
-                    <div class="Github-service__table__definition">Repository name</div>
-                    <div class="Github-service__table__value" v-text="repo.repoName"></div>
-                </div>
-                <div class="Github-service__table__row">
-                    <div class="Github-service__table__definition">Created at</div>
-                    <div class="Github-service__table__value" v-text="getDate(repo.createdAt)"></div>
-                </div>
-                <div class="Github-service__table__row">
-                    <div class="Github-service__table__definition">Updated at</div>
-                    <div class="Github-service__table__value" v-text="getDate(repo.updatedAt)"></div>
-                </div>
-                <div class="Github-service__table__row">
-                    <div class="Github-service__table__definition">Total number of commits</div>
-                    <div class="Github-service__table__value" v-text="repo.numberOfCommits"></div>
-                </div>
-                <div class="Github-service__table__row">
-                    <div class="Github-service__table__definition">Total lines of code</div>
-                    <div class="Github-service__table__value" v-text="repo.linesOfCode"></div>
+                <i v-on:click="hideAndShowRepo(repo.repoName)"
+                   v-bind:class="!isDropped(repo.repoName)
+                   ? 'Github-service__icon fas fa-caret-right'
+                   : 'Github-service__icon fas fa-caret-down'"></i>
+                <div class="Github-service__stat-section__description" v-text="repo.repoName"></div>
+                <div v-if="isDropped(repo.repoName)">
+                    drop
                 </div>
             </div>
         </div>
@@ -70,10 +57,34 @@
         private result: GitStatsDto | undefined;
 
         private gitHubName: string = '';
+        private droppedRepos: string[] = [];
 
-        private onClick(): void {
-            console.log(this.gitHubName);
-            this.restApi.getGitStats(this.gitHubName);
+        private onBlur(event: Event): void {
+            const elem = event.target as HTMLInputElement;
+            if (!elem)
+                return;
+
+            elem.blur();
+            if (this.gitHubName !== elem.value && elem.value.trim().length !== 0) {
+                this.gitHubName = elem.value;
+                this.restApi.getGitStats(this.gitHubName)
+                    .then(resp => {
+                        this.result = resp.data;
+                        this.$forceUpdate();
+                    })
+                    .catch(() => console.log("Error"));
+            }
+        }
+
+        private isDropped(repoName: string): boolean {
+            return this.droppedRepos.includes(repoName);
+        }
+
+        private hideAndShowRepo(repoName: string): void {
+            if (this.isDropped(repoName))
+                this.droppedRepos = this.droppedRepos.filter(it => it !== repoName);
+            else
+                this.droppedRepos.push(repoName);
         }
 
         private getDate(unixTime: number): string {

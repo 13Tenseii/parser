@@ -4,34 +4,60 @@
   margin-top 2rem;
   padding 2rem;
   background-color $grey_color;
-  height 30rem;
-  align-items center;
 
   &__stats {
     display flex;
-    justify-content center;
-    align-items center;
+    flex-direction column;
+    padding-left 20rem;
 
     &__label {
       color $orange_color;
       font-size 1.3rem;
+      font-weight bold;
     }
   }
 
-  &__table {
-    border 1px solid $violet_color;
+  &__input {
+    background: inherit;
+    border none;
+    border-bottom 2px solid #7f7f7f;
+    transition border-bottom 0.5s ease 0s;
 
-    &__row {
-      padding 3px;
-      border 1px solid $violet_color;
+    &:focus {
+      border-bottom 2px solid $orange_color;
     }
 
-    &__definition {
-      color #721c24;
+    &:hover:not(:focus) {
+      border-bottom 2px solid #ffa99e;
+    }
+  }
+
+  &__stat-section {
+    display flex;
+
+    &__description {
+      font-size 1.2rem;
+      font-weight bold;
+
     }
 
     &__value {
-      color #000066;
+      padding-left 1rem;
+      align-self center;
+    }
+  }
+
+
+  &__icon {
+    cursor: pointer;
+    color #808080;
+    align-self center;
+    font-size 0.7rem;
+    padding-right 0.5rem;
+
+    &__circle-icon {
+      cursor none !important;
+
     }
   }
 }
