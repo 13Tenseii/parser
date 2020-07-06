@@ -2,3 +2,6 @@ github:
   auth:
     userName:
     password:
+
+server:
+  port: ${PORT:8080}

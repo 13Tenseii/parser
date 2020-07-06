@@ -7,7 +7,7 @@
 
     <parent>
         <groupId>com.tenseii</groupId>
-        <artifactId>parser</artifactId>
+        <artifactId>tenseii</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

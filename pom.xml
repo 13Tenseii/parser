@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.tenseii</groupId>
-    <artifactId>parser</artifactId>
+    <artifactId>tenseii</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>parser</name>
+    <name>tenseii</name>
     <description>Parser constructor by 13Tenseii</description>
 
     <parent>
