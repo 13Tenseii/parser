@@ -1,4 +1,4 @@
-package com.tenseii.parser.models;
+package com.tenseii.app.models;
 
 
 import org.springframework.beans.factory.annotation.Value;

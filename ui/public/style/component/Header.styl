@@ -5,27 +5,44 @@
   left 0;
   width 100%;
   display flex;
-  flex-direction row;
   color: #ffffff;
 
+  &__logo-img-container {
+    display flex;
+    flex 196;
+    width 100%;
+    min-width 196px;
+    position: relative;
+  }
+
   &__logo-img {
-    width 250px;
-    height 187.5px;
     position relative;
     padding-left 1rem;
+    width 250px;
+  }
+
+  &__links-container {
+    display flex;
+    flex 784;
+    width 100%;
+    min-width 784px;
+    position: relative;
+    align-self center;
   }
 
   &__links {
+    position: static;
     display flex;
-    position: relative;
-    align-self center;
-    left 62%;
+    width 100%;
+    min-height auto;
+    margin-left calc(100% - 784px);
+    justify-content end;
   }
 
   &__link {
     text-align center;
     margin-right 4rem;
-    font-size 1.3rem;
+    font-size 1.2rem;
     cursor: pointer;
 
     &:hover {

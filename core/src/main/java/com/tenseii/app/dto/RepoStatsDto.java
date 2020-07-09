@@ -1,4 +1,4 @@
-package com.tenseii.parser.dto;
+package com.tenseii.app.dto;
 
 public class RepoStatsDto {
     private String repoName;

@@ -38,8 +38,8 @@
                    ? 'Github-service__icon fas fa-caret-right'
                    : 'Github-service__icon fas fa-caret-down'"></i>
                 <div class="Github-service__stat-section__description" v-text="repo.repoName"></div>
-                <div v-if="isDropped(repo.repoName)">
-                    drop
+                <div v-if="isDropped(repo.repoName)" class="Github-service__repo-stats">
+<!--                    <component v-bind:is="new RepoS"></component>-->
                 </div>
             </div>
         </div>
@@ -50,6 +50,8 @@
     import {Component, Vue} from "vue-property-decorator";
     import RestApi from "@/api/RestApi";
     import GitStatsDto from "@/api/dto/GitStatsDto";
+    import RepoStats from "@/components/model/RepoStats.vue";
+    import RepoStatsDto from "@/api/dto/RepoStatsDto";
 
     @Component({name: 'GitHubService'})
     export default class GitHubService extends Vue {
@@ -89,6 +91,12 @@
 
         private getDate(unixTime: number): string {
             return new Date(unixTime).toDateString();
+        }
+
+        private getNewRepoStatsComponent(dto: RepoStatsDto): RepoStats {
+            // let component = new RepoStats();
+            // component.dto
+            return new RepoStats()
         }
     }
 </script>

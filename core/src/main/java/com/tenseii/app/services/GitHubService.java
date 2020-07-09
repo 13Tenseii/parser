@@ -1,10 +1,10 @@
-package com.tenseii.parser.services;
+package com.tenseii.app.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tenseii.parser.dto.GitStatsDto;
-import com.tenseii.parser.dto.RepoStatsDto;
-import com.tenseii.parser.exceptions.ServiceException;
+import com.tenseii.app.dto.GitStatsDto;
+import com.tenseii.app.dto.RepoStatsDto;
+import com.tenseii.app.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

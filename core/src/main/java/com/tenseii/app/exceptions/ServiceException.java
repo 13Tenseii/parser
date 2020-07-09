@@ -1,4 +1,4 @@
-package com.tenseii.parser.exceptions;
+package com.tenseii.app.exceptions;
 
 public class ServiceException extends Exception {
 

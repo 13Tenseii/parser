@@ -1,4 +1,4 @@
-package com.tenseii.parser.controllers;
+package com.tenseii.app.controllers;
 
 public class Controller {
 

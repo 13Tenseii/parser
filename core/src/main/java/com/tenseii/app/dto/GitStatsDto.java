@@ -1,4 +1,4 @@
-package com.tenseii.parser.dto;
+package com.tenseii.app.dto;
 
 import java.util.HashSet;
 import java.util.Set;

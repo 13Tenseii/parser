@@ -7,7 +7,7 @@
     <artifactId>tenseii</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>tenseii</name>
-    <description>Parser constructor by 13Tenseii</description>
+    <description>Application by 13Tenseii</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
